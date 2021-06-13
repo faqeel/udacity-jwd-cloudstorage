@@ -1,0 +1,45 @@
+package com.udacity.jwdnd.course1.cloudstorage.services;
+
+import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
+import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
+@Service
+public class FileService {
+    private FileMapper fileMapper;
+
+    public FileService(FileMapper fileMapper) {
+        this.fileMapper = fileMapper;
+    }
+
+    public int store(MultipartFile multipartFile, User user) {
+        if (multipartFile.isEmpty()) {
+            return 0;
+        }
+
+        File file;
+        try {
+            file = new File(multipartFile, user.getUserId());
+        } catch (IOException e) {
+            return 0;
+        }
+
+        return fileMapper.insert(file);
+    }
+
+    public int update(File file) {
+        return fileMapper.update(file);
+    }
+
+    public int deleteById(Integer fileId) {
+        return fileMapper.deleteById(fileId);
+    }
+
+    public boolean isFileExists(String fileName) {
+        return fileMapper.getFileByFileName(fileName) != null;
+    }
+}
