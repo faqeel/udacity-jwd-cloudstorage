@@ -17,6 +17,10 @@ public class UserService {
         this.hashService = hashService;
     }
 
+    public User getUser(String username) {
+        return userMapper.getUser(username);
+    }
+
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
