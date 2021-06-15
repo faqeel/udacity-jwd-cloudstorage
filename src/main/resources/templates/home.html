@@ -26,12 +26,6 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
                         <form th:action="@{/files}" action="#" enctype="multipart/form-data" method="POST">
-                            <div th:if="${success}" class="alert alert-success">
-                                File uploaded successfully.
-                            </div>
-                            <div th:if="${success == false}" class="alert alert-danger">
-                                <span th:text="${message}"></span>
-                            </div>
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
