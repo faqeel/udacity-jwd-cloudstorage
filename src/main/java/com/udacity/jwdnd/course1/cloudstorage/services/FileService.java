@@ -17,6 +17,10 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
+    public File getFileByName(String fileName) {
+        return fileMapper.getFileByFileName(fileName);
+    }
+
     public List<File> getFileByUser(Integer userId) {
         return fileMapper.getFileByUser(userId);
     }

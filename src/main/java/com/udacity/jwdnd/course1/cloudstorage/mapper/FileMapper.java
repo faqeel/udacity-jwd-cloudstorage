@@ -10,7 +10,7 @@ import java.util.List;
 public interface FileMapper {
 
     @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
-    File getFileById(String fileId);
+    File getFileById(Integer fileId);
 
     @Select("SELECT * FROM FILES WHERE userid = #{userId}")
     List<File> getFileByUser(Integer userId);
