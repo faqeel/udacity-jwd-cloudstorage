@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.stereotype.Controller;
@@ -27,23 +28,26 @@ public class FileController {
     @PostMapping
     public String uploadFile(@RequestParam("fileUpload") MultipartFile file, Principal principal, Model model) {
         String message;
+        User user = userService.getUser(principal.getName());
+
+        model.addAttribute("directTo", "home");
 
         if (fileService.isFileExists(file.getOriginalFilename())) {
             message = "The file name already exists.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
-            return "home";
+            return "result";
         }
 
-        int rowAdded = fileService.store(file, userService.getUser(principal.getName()));
+        int rowAdded = fileService.store(file, user);
         if (rowAdded < 0) {
             message = "There was an error while uploading the file. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
-            return "home";
+            return "result";
         }
 
         model.addAttribute("success", true);
-        return "home";
+        return "result";
     }
 }

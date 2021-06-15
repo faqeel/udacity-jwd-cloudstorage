@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -14,6 +15,10 @@ public class FileService {
 
     public FileService(FileMapper fileMapper) {
         this.fileMapper = fileMapper;
+    }
+
+    public List<File> getFileByUser(Integer userId) {
+        return fileMapper.getFileByUser(userId);
     }
 
     public int store(MultipartFile multipartFile, User user) {

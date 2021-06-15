@@ -1,13 +1,19 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface FileMapper {
 
     @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
     File getFileById(String fileId);
+
+    @Select("SELECT * FROM FILES WHERE userid = #{userId}")
+    List<File> getFileByUser(Integer userId);
 
     @Select("SELECT * FROM FILES WHERE filename = #{fileName}")
     File getFileByFileName(String fileName);
