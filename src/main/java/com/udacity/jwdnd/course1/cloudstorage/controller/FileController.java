@@ -55,4 +55,22 @@ public class FileController {
         model.addAttribute("success", true);
         return "result";
     }
+
+    @GetMapping(value = "/{fileName}/delete")
+    public String deleteFile(@PathVariable String fileName, Model model) {
+        String message;
+
+        model.addAttribute("directTo", "home");
+
+        int rowAdded = fileService.deleteByName(fileName);
+        if (rowAdded < 0) {
+            message = "There was an error while uploading the file. Please try again.";
+            model.addAttribute("success", false);
+            model.addAttribute("message", message);
+            return "result";
+        }
+
+        model.addAttribute("success", true);
+        return "result";
+    }
 }
