@@ -27,7 +27,7 @@ public class File {
         this.contentType = file.getContentType();
         this.fileSize = String.valueOf(file.getSize());
         this.userId = userId;
-        byte[] fileData = null;
+        this.fileData = null;
         try {
             fileData = IOUtils.toByteArray(file.getInputStream());
         } catch (IOException e) {
