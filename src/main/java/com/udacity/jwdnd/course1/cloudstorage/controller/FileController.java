@@ -64,7 +64,7 @@ public class FileController {
 
         int rowAdded = fileService.deleteByName(fileName);
         if (rowAdded < 0) {
-            message = "There was an error while uploading the file. Please try again.";
+            message = "There was an error while deleting the file. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
