@@ -27,9 +27,9 @@ public class NoteController {
 
         model.addAttribute("directTo", "home");
 
-        int rowAdded = noteService.store(note, user);
+        int rowAdded = note.getNoteId() == null ? noteService.store(note, user) : noteService.update(note);
         if (rowAdded < 0) {
-            message = "There was an error while creating the note. Please try again.";
+            message = "There was an error while processing the note. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
