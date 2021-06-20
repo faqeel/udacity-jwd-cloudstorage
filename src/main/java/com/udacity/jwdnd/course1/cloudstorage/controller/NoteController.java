@@ -7,9 +7,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/notes")
@@ -32,6 +30,24 @@ public class NoteController {
         int rowAdded = noteService.store(note, user);
         if (rowAdded < 0) {
             message = "There was an error while creating the note. Please try again.";
+            model.addAttribute("success", false);
+            model.addAttribute("message", message);
+            return "result";
+        }
+
+        model.addAttribute("success", true);
+        return "result";
+    }
+
+    @GetMapping(value = "/{noteId}/delete")
+    public String deleteNoteById(@PathVariable Integer noteId, Model model) {
+        String message;
+
+        model.addAttribute("directTo", "home");
+
+        int rowAdded = noteService.deleteById(noteId);
+        if (rowAdded < 0) {
+            message = "There was an error while deleting the note. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
