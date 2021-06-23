@@ -27,9 +27,9 @@ public class CredentialController {
 
         model.addAttribute("directTo", "home");
 
-        int rowAdded = credentialService.store(credential, user);
+        int rowAdded = credential.getCredentialId() == null ? credentialService.store(credential, user) : credentialService.update(credential);
         if (rowAdded < 0) {
-            message = "There was an error while storing the credential. Please try again.";
+            message = "There was an error while processing the credential. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";

@@ -25,6 +25,11 @@ public class CredentialService {
         return credentialMapper.insert(credential);
     }
 
+    public int update(Credential credential) {
+        credential.setKey("");
+        return credentialMapper.update(credential);
+    }
+
     public int deleteById(String credentialId) {
         return credentialMapper.deleteByName(credentialId);
     }
