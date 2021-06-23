@@ -7,9 +7,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/credentials")
@@ -32,6 +30,24 @@ public class CredentialController {
         int rowAdded = credentialService.store(credential, user);
         if (rowAdded < 0) {
             message = "There was an error while storing the credential. Please try again.";
+            model.addAttribute("success", false);
+            model.addAttribute("message", message);
+            return "result";
+        }
+
+        model.addAttribute("success", true);
+        return "result";
+    }
+
+    @GetMapping(value = "/{credentialId}/delete")
+    public String deleteFile(@PathVariable String credentialId, Model model) {
+        String message;
+
+        model.addAttribute("directTo", "home");
+
+        int rowAdded = credentialService.deleteById(credentialId);
+        if (rowAdded < 0) {
+            message = "There was an error while deleting the credential. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";

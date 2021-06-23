@@ -16,14 +16,16 @@ public class CredentialService {
     }
 
     public List<Credential> getCredentialsByUser(User user) {
-        List<Credential> credentials = credentialMapper.getCredentialByUser(user.getUserId());
-        System.out.println(credentials);
-        return credentials;
+        return credentialMapper.getCredentialByUser(user.getUserId());
     }
 
     public int store(Credential credential, User user) {
         credential.setKey("");
         credential.setUserId(user.getUserId());
         return credentialMapper.insert(credential);
+    }
+
+    public int deleteById(String credentialId) {
+        return credentialMapper.deleteByName(credentialId);
     }
 }
