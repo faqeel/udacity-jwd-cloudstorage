@@ -12,15 +12,15 @@ import java.util.List;
 @Service
 public class CredentialService {
     private CredentialMapper credentialMapper;
-    EncryptionService encryptionService;
+    private EncryptionService encryptionService;
 
     public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
         this.encryptionService = encryptionService;
     }
 
-    public List<Credential> getCredentialsByUser(User user) {
-        List<Credential> credentials = credentialMapper.getCredentialByUser(user.getUserId());
+    public List<Credential> getCredentialsByUserId(Integer userId) {
+        List<Credential> credentials = credentialMapper.getByUserId(userId);
         credentials.forEach(credential -> {
             String encryptedPassword = credential.getPassword();
             String encodedKey = credential.getKey();
@@ -31,11 +31,8 @@ public class CredentialService {
     }
 
     public int store(Credential credential, User user) {
-        SecureRandom random = new SecureRandom();
-        byte[] key = new byte[16];
-        random.nextBytes(key);
-        String encodedKey = Base64.getEncoder().encodeToString(key);
-        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
+        String encodedKey = generateEncodedKey();
+        String encryptedPassword = encryptPassword(credential.getPassword(), encodedKey);
         credential.setKey(encodedKey);
         credential.setPassword(encryptedPassword);
         credential.setUserId(user.getUserId());
@@ -43,17 +40,25 @@ public class CredentialService {
     }
 
     public int update(Credential credential) {
-        SecureRandom random = new SecureRandom();
-        byte[] key = new byte[16];
-        random.nextBytes(key);
-        String encodedKey = Base64.getEncoder().encodeToString(key);
-        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
+        String encodedKey = generateEncodedKey();
+        String encryptedPassword = encryptPassword(credential.getPassword(), encodedKey);
         credential.setKey(encodedKey);
         credential.setPassword(encryptedPassword);
         return credentialMapper.update(credential);
     }
 
     public int deleteById(String credentialId) {
-        return credentialMapper.deleteByName(credentialId);
+        return credentialMapper.deleteById(credentialId);
+    }
+
+    private String generateEncodedKey() {
+        SecureRandom random = new SecureRandom();
+        byte[] key = new byte[16];
+        random.nextBytes(key);
+        return Base64.getEncoder().encodeToString(key);
+    }
+
+    private String encryptPassword(String password, String key) {
+        return encryptionService.encryptValue(password, key);
     }
 }

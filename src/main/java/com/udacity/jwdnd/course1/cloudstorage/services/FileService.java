@@ -21,22 +21,20 @@ public class FileService {
         return fileMapper.getFileByFileName(fileName);
     }
 
-    public List<File> getFileByUser(Integer userId) {
-        return fileMapper.getFileByUser(userId);
+    public List<File> getFilesByUserId(Integer userId) {
+        return fileMapper.getFilesByUserId(userId);
     }
 
     public int store(MultipartFile multipartFile, User user) {
         if (multipartFile.isEmpty()) {
             return 0;
         }
-
         File file;
         try {
             file = new File(multipartFile, user.getUserId());
         } catch (IOException e) {
             return 0;
         }
-
         return fileMapper.insert(file);
     }
 

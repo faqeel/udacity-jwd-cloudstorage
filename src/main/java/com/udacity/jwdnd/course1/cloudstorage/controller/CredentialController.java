@@ -23,36 +23,30 @@ public class CredentialController {
     @PostMapping
     String store(Authentication authentication, @ModelAttribute Credential credential, Model model) {
         String message;
-        User user = userService.getUser(authentication.getName());
-
+        User user = userService.getUserByUsername(authentication.getName());
         model.addAttribute("directTo", "home");
-
         int rowAdded = credential.getCredentialId() == null ? credentialService.store(credential, user) : credentialService.update(credential);
-        if (rowAdded < 0) {
+        if (rowAdded <= 0) {
             message = "There was an error while processing the credential. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
         }
-
         model.addAttribute("success", true);
         return "result";
     }
 
     @GetMapping(value = "/{credentialId}/delete")
-    public String deleteFile(@PathVariable String credentialId, Model model) {
+    public String delete(@PathVariable String credentialId, Model model) {
         String message;
-
         model.addAttribute("directTo", "home");
-
-        int rowAdded = credentialService.deleteById(credentialId);
-        if (rowAdded < 0) {
+        int rowDeleted = credentialService.deleteById(credentialId);
+        if (rowDeleted <= 0) {
             message = "There was an error while deleting the credential. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
         }
-
         model.addAttribute("success", true);
         return "result";
     }

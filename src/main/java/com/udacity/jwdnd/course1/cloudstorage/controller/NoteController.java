@@ -23,18 +23,15 @@ public class NoteController {
     @PostMapping
     public String store(Authentication authentication, @ModelAttribute Note note, Model model) {
         String message;
-        User user = userService.getUser(authentication.getName());
-
+        User user = userService.getUserByUsername(authentication.getName());
         model.addAttribute("directTo", "home");
-
         int rowAdded = note.getNoteId() == null ? noteService.store(note, user) : noteService.update(note);
-        if (rowAdded < 0) {
+        if (rowAdded <= 0) {
             message = "There was an error while processing the note. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
         }
-
         model.addAttribute("success", true);
         return "result";
     }
@@ -42,17 +39,14 @@ public class NoteController {
     @GetMapping(value = "/{noteId}/delete")
     public String deleteNoteById(@PathVariable Integer noteId, Model model) {
         String message;
-
         model.addAttribute("directTo", "home");
-
-        int rowAdded = noteService.deleteById(noteId);
-        if (rowAdded < 0) {
+        int rowDeleted = noteService.deleteById(noteId);
+        if (rowDeleted <= 0) {
             message = "There was an error while deleting the note. Please try again.";
             model.addAttribute("success", false);
             model.addAttribute("message", message);
             return "result";
         }
-
         model.addAttribute("success", true);
         return "result";
     }

@@ -17,8 +17,8 @@ public class UserService {
         this.hashService = hashService;
     }
 
-    public User getUser(String username) {
-        return userMapper.getUser(username);
+    public User getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
     }
 
     public int createUser(User user) {
@@ -31,6 +31,6 @@ public class UserService {
     }
 
     public boolean isUsernameExists(String username) {
-        return userMapper.getUser(username) != null;
+        return userMapper.getUserByUsername(username) != null;
     }
 }
