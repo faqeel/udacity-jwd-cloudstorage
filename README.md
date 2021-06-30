@@ -10,3 +10,7 @@ The project aims to build a Cloud Storage that includes three user-facing featur
 - Thymeleaf
 - MyBatis
 - H2 Database
+
+## License
+
+Distributed under the MIT License. See the `LICENSE` for more information.
