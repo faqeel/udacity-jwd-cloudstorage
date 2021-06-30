@@ -11,13 +11,17 @@ public class AuthenticationTests extends CloudStorageApplicationTests {
     @Test
     @DisplayName("User can signup")
     public void tesSignUp() {
+        int signUpAttempts = 0;
         SignUpPage signUpPage = new SignUpPage(driver);
         driver.get("http://localhost:" + port + "/signup");
-        signUpPage.setFirstName("Fares");
-        signUpPage.setLastNameInput("A");
-        signUpPage.setUsername("faqeel");
-        signUpPage.setPassword("123456");
-        signUpPage.signup();
+        do {
+            signUpPage.setFirstName("Fares");
+            signUpPage.setLastNameInput("A");
+            signUpPage.setUsername(signUpAttempts == 0 ? "faqeel" : "faqeel" + signUpAttempts);
+            signUpPage.setPassword("123456");
+            signUpPage.signup();
+            signUpAttempts++;
+        } while (signUpAttempts < 3 && "Sign Up".equalsIgnoreCase(driver.getTitle()));
 
         String expected = "You have successfully signed up!";
         LoginPage loginPage = new LoginPage(driver);
