@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -52,53 +54,56 @@ public class HomePage {
     @FindBy(id = "credential-password")
     private WebElement credentialPasswordInput;
 
+    private final WebDriverWait wait;
+
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        wait = new WebDriverWait(driver, 10);
     }
 
     public void logout() {
-        logoutButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
     }
 
     public void openNotesTab() {
-        notesTab.click();
+        wait.until(ExpectedConditions.elementToBeClickable(notesTab)).click();
     }
 
     public void openCredentialsTab() {
-        credentialsTab.click();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialsTab)).click();
     }
 
     public void showNoteModal() {
-        addNoteButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(addNoteButton)).click();
     }
 
     public void showCredentialModal() {
-        addCredentialButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(addCredentialButton)).click();
     }
 
     public void setNoteTitleInput(String title) {
-        noteTitleInput.clear();
-        noteTitleInput.sendKeys(title);
+        wait.until(ExpectedConditions.elementToBeClickable(noteTitleInput)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(noteTitleInput)).sendKeys(title);
     }
 
     public void setNoteDescriptionInput(String description) {
-        noteDescriptionInput.clear();
-        noteDescriptionInput.sendKeys(description);
+        wait.until(ExpectedConditions.elementToBeClickable(noteDescriptionInput)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(noteDescriptionInput)).sendKeys(description);
     }
 
     public void setCredentialUrlInput(String url) {
-        credentialUrlInput.clear();
-        credentialUrlInput.sendKeys(url);
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUrlInput)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUrlInput)).sendKeys(url);
     }
 
     public void setCredentialUsernameInput(String username) {
-        credentialUsernameInput.clear();
-        credentialUsernameInput.sendKeys(username);
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUsernameInput)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUsernameInput)).sendKeys(username);
     }
 
     public void setCredentialPasswordInput(String password) {
-        credentialPasswordInput.clear();
-        credentialPasswordInput.sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(credentialPasswordInput)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialPasswordInput)).sendKeys(password);
     }
 
     public String getCredentialPasswordInput() {
@@ -120,44 +125,44 @@ public class HomePage {
     }
 
     public Integer getCredentialsTableSize() {
-        WebElement tableBody = credentialsTable.findElement(By.tagName("tbody"));
-        List<WebElement> rows = tableBody.findElements(By.tagName("tr"));
+        WebElement tableBody = wait.until(driver -> credentialsTable.findElement(By.tagName("tbody")));
+        List<WebElement> rows = wait.until(driver -> tableBody.findElements(By.tagName("tr")));
         return rows.size();
     }
 
     public void editLastNote() {
-        List<WebElement> rows = notesTable.findElements(By.tagName("tr"));
-        WebElement lastNoteEditButton = rows.get(rows.size() - 1).findElement(By.className("btn-success"));
+        List<WebElement> rows = wait.until(driver -> notesTable.findElements(By.tagName("tr")));
+        WebElement lastNoteEditButton = wait.until(driver -> rows.get(rows.size() - 1).findElement(By.className("btn-success")));
         lastNoteEditButton.click();
     }
 
     public void deleteLastNote() {
-        List<WebElement> rows = notesTable.findElements(By.tagName("tr"));
-        WebElement lastNoteDeleteButton = rows.get(rows.size() - 1).findElement(By.className("btn-danger"));
+        List<WebElement> rows = wait.until(driver -> notesTable.findElements(By.tagName("tr")));
+        WebElement lastNoteDeleteButton = wait.until(driver -> rows.get(rows.size() - 1).findElement(By.className("btn-danger")));
         lastNoteDeleteButton.click();
     }
 
     public void deleteLastCredential() {
-        List<WebElement> rows = credentialsTable.findElements(By.tagName("tr"));
-        WebElement lastNoteDeleteButton = rows.get(rows.size() - 1).findElement(By.className("btn-danger"));
+        List<WebElement> rows = wait.until(driver -> credentialsTable.findElements(By.tagName("tr")));
+        WebElement lastNoteDeleteButton = wait.until(driver -> rows.get(rows.size() - 1).findElement(By.className("btn-danger")));
         lastNoteDeleteButton.click();
     }
 
     public String getLastNoteTitle() {
-        List<WebElement> rows = notesTable.findElements(By.tagName("tr"));
-        WebElement lastNote = rows.get(rows.size() - 1).findElement(By.tagName("th"));
+        List<WebElement> rows = wait.until(driver -> notesTable.findElements(By.tagName("tr")));
+        WebElement lastNote = wait.until(driver -> rows.get(rows.size() - 1).findElement(By.tagName("th")));
         return lastNote.getText();
     }
 
     public String getLastCredentialPassword() {
-        List<WebElement> rows = credentialsTable.findElements(By.tagName("tr"));
-        List<WebElement> tds = rows.get(rows.size() - 1).findElements(By.tagName("td"));
+        List<WebElement> rows = wait.until(driver -> credentialsTable.findElements(By.tagName("tr")));
+        List<WebElement> tds = wait.until(driver -> rows.get(rows.size() - 1).findElements(By.tagName("td")));
         return tds.get(rows.size() - 1).getText();
     }
 
     public String getLastCredentialUrl() {
-        List<WebElement> rows = credentialsTable.findElements(By.tagName("tr"));
-        WebElement lastCredentialUrl = rows.get(rows.size() - 1).findElement(By.tagName("th"));
+        List<WebElement> rows = wait.until(driver -> credentialsTable.findElements(By.tagName("tr")));
+        WebElement lastCredentialUrl = wait.until(driver -> rows.get(rows.size() - 1).findElement(By.tagName("th")));
         return lastCredentialUrl.getText();
     }
 
