@@ -22,9 +22,6 @@ public class SignUpPage {
     @FindBy(id = "buttonSubmit")
     private WebElement submitButton;
 
-    @FindBy(className = "alert-dark")
-    private WebElement alert;
-
     public SignUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
@@ -47,12 +44,5 @@ public class SignUpPage {
 
     public void signup() {
         submitButton.click();
-    }
-
-    public String getAlertText() {
-        if (alert == null) {
-            return "";
-        }
-        return alert.getText();
     }
 }

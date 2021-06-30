@@ -18,8 +18,10 @@ public class AuthenticationTests extends CloudStorageApplicationTests {
         signUpPage.setUsername("faqeel");
         signUpPage.setPassword("123456");
         signUpPage.signup();
-        String expected = "You successfully signed up! Please continue to the login page.";
-        String actual = signUpPage.getAlertText();
+
+        String expected = "You have successfully signed up!";
+        LoginPage loginPage = new LoginPage(driver);
+        String actual = loginPage.getAlertText();
         Assertions.assertEquals(expected, actual);
     }
 
